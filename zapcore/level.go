@@ -35,6 +35,8 @@ const (
 	// DebugLevel logs are typically voluminous, and are usually disabled in
 	// production.
 	DebugLevel Level = iota - 1
+	// StatLevel is the state info.
+	StatLevel
 	// InfoLevel is the default logging priority.
 	InfoLevel
 	// WarnLevel logs are more important than Info, but don't need individual
@@ -114,6 +116,8 @@ func (l Level) String() string {
 	switch l {
 	case DebugLevel:
 		return "debug"
+	case StatLevel:
+		return "stat"
 	case InfoLevel:
 		return "info"
 	case WarnLevel:
@@ -138,6 +142,8 @@ func (l Level) CapitalString() string {
 	switch l {
 	case DebugLevel:
 		return "DEBUG"
+	case StatLevel:
+		return "STAT"
 	case InfoLevel:
 		return "INFO"
 	case WarnLevel:
@@ -181,6 +187,8 @@ func (l *Level) unmarshalText(text []byte) bool {
 	switch string(text) {
 	case "debug", "DEBUG":
 		*l = DebugLevel
+	case "stat", "STAT":
+		*l = StatLevel
 	case "info", "INFO", "": // make the zero value useful
 		*l = InfoLevel
 	case "warn", "WARN":

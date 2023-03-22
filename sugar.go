@@ -23,9 +23,9 @@ package zap
 import (
 	"fmt"
 
-	"go.uber.org/zap/zapcore"
-
 	"go.uber.org/multierr"
+
+	"go.uber.org/zap/zapcore"
 )
 
 const (
@@ -128,6 +128,12 @@ func (s *SugaredLogger) Debug(args ...interface{}) {
 	s.log(DebugLevel, "", args, nil)
 }
 
+// Stat logs the provided arguments at [DebugLevel].
+// Spaces are added between arguments when neither is a string.
+func (s *SugaredLogger) Stat(args ...interface{}) {
+	s.log(StatLevel, "", args, nil)
+}
+
 // Info logs the provided arguments at [InfoLevel].
 // Spaces are added between arguments when neither is a string.
 func (s *SugaredLogger) Info(args ...interface{}) {
@@ -169,6 +175,12 @@ func (s *SugaredLogger) Fatal(args ...interface{}) {
 // and logs it at [DebugLevel].
 func (s *SugaredLogger) Debugf(template string, args ...interface{}) {
 	s.log(DebugLevel, template, args, nil)
+}
+
+// Statf formats the message according to the format specifier
+// and logs it at [DebugLevel].
+func (s *SugaredLogger) Statf(template string, args ...interface{}) {
+	s.log(StatLevel, template, args, nil)
 }
 
 // Infof formats the message according to the format specifier
@@ -218,6 +230,16 @@ func (s *SugaredLogger) Debugw(msg string, keysAndValues ...interface{}) {
 	s.log(DebugLevel, msg, nil, keysAndValues)
 }
 
+// Statw logs a message with some additional context. The variadic key-value
+// pairs are treated as they are in With.
+//
+// When debug-level logging is disabled, this is much faster than
+//
+//	s.With(keysAndValues).Debug(msg)
+func (s *SugaredLogger) Statw(msg string, keysAndValues ...interface{}) {
+	s.log(StatLevel, msg, nil, keysAndValues)
+}
+
 // Infow logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
 func (s *SugaredLogger) Infow(msg string, keysAndValues ...interface{}) {
@@ -259,6 +281,12 @@ func (s *SugaredLogger) Fatalw(msg string, keysAndValues ...interface{}) {
 // Spaces are always added between arguments.
 func (s *SugaredLogger) Debugln(args ...interface{}) {
 	s.logln(DebugLevel, args, nil)
+}
+
+// Statln logs a message at [StatLevel].
+// Spaces are always added between arguments.
+func (s *SugaredLogger) Statln(args ...interface{}) {
+	s.logln(StatLevel, args, nil)
 }
 
 // Infoln logs a message at [InfoLevel].

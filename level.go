@@ -31,6 +31,8 @@ const (
 	// DebugLevel logs are typically voluminous, and are usually disabled in
 	// production.
 	DebugLevel = zapcore.DebugLevel
+	// StatLevel logs stat level
+	StatLevel = zapcore.StatLevel
 	// InfoLevel is the default logging priority.
 	InfoLevel = zapcore.InfoLevel
 	// WarnLevel logs are more important than Info, but don't need individual
